@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hospital Registration</title>
+  <style>
+    body {
+      background-color: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .registration-card {
+      background-color: #ffffff;
+      padding: 2rem 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 520px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .registration-card h2 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 1.8rem;
+      font-weight: 700;
+      font-size: 2rem;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: #374151;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.2rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 0.75rem;
+      outline-offset: 2px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    form input:focus, form select:focus, form textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 1%;
+    }
+
+    .button-group button {
+      flex: 1 1 48%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .submit-btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    .reset-btn {
+      background-color: #f3f4f6;
+      color: #111827;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    .reset-btn:hover {
+      background-color: #e5e7eb;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #16a34a;
+      text-align: center;
+      user-select: none;
+    }
+
+    
+    @media (max-width: 400px) {
+      .button-group {
+        flex-direction: column;
+      }
+      .button-group button {
+        width: 100%;
+        margin-bottom: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="registration-card" role="region" aria-label="Hospital Registration Form">
+    <h2>Hospital Registration Form</h2>
+    <form id="registrationForm" novalidate>
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" name="fullName" placeholder="John Doe" required />
+
+      <label for="age">Age</label>
+      <input type="number" id="age" name="age" min="0" placeholder="e.g., 30" required />
+
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" required>
+        <option value="" disabled selected>Select gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+
+      <label for="contact">Contact Number</label>
+      <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="10-digit number" required />
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="example@mail.com" required />
+
+      <label for="weight">Weight (kg)</label>
+      <input type="number" id="weight" name="weight" min="1" placeholder="e.g., 70" required />
+
+      <label for="height">Height (cm)</label>
+      <input type="number" id="height" name="height" min="1" placeholder="e.g., 175" required />
+
+      <label for="bloodGroup">Blood Group</label>
+      <select id="bloodGroup" name="bloodGroup" required>
+        <option value="" disabled selected>Select blood group</option>
+        <option>A+</option>
+        <option>A-</option>
+        <option>B+</option>
+        <option>B-</option>
+        <option>AB+</option>
+        <option>AB-</option>
+        <option>O+</option>
+        <option>O-</option>
+      </select>
+
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="3" placeholder="Your full address" required></textarea>
+
+      <label for="emergencyContact">Emergency Contact Number</label>
+      <input type="tel" id="emergencyContact" name="emergencyContact" pattern="[0-9]{10}" placeholder="10-digit number" required />
+
+      <label for="allergies">Known Allergies</label>
+      <input type="text" id="allergies" name="allergies" placeholder="Enter 'None' if no allergies" required />
+
+      <label for="department">Department</label>
+      <select id="department" name="department" required>
+        <option value="" disabled selected>Select department</option>
+        <option>General Medicine</option>
+        <option>Pediatrics</option>
+        <option>Cardiology</option>
+        <option>Orthopedics</option>
+        <option>Neurology</option>
+      </select>
+
+      <div class="button-group">
+        <button type="submit" class="submit-btn">Register</button>
+        <button type="reset" class="reset-btn">Reset</button>
+      </div>
+      <div id="formMessage" class="message" aria-live="polite" role="alert" style="display:none;"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('registrationForm');
+    const message = document.getElementById('formMessage');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      message.style.display = 'none';
+      message.textContent = '';
+
+      const fullName = form.fullName.value.trim();
+      const age = form.age.value;
+      const gender = form.gender.value;
+      const contact = form.contact.value.trim();
+      const email = form.email.value.trim();
+      const weight = form.weight.value;
+      const height = form.height.value;
+      const bloodGroup = form.bloodGroup.value;
+      const address = form.address.value.trim();
+      const emergencyContact = form.emergencyContact.value.trim();
+      const allergies = form.allergies.value.trim();
+      const department = form.department.value;
+
+      
+      if (
+        !fullName || !age || !gender || !contact || !email ||
+        !weight || !height || !bloodGroup || !address ||
+        !emergencyContact || !allergies || !department
+      ) {
+        message.style.color = '#dc2626'; 
+        message.textContent = 'Please fill in all the required fields.';
+        message.style.display = 'block';
+        return;
+      }
+
+      
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(contact)) {
+        message.style.color = '#dc2626';
+        message.textContent = 'Please enter a valid 10-digit contact number.';
+        message.style.display = 'block';
+        return;
+      }
+
+      if (!phoneRegex.test(emergencyContact)) {
+        message.style.color = '#dc2626';
+        message.textContent = 'Please enter a valid 10-digit emergency contact number.';
+        message.style.display = 'block';
+        return;
+      }
+
+      
+      if (!form.email.checkValidity()) {
+        message.style.color = '#dc2626';
+        message.textContent = 'Please enter a valid email address.';
+        message.style.display = 'block';
+        return;
+      }
+
+      
+      message.style.color = '#16a34a'; 
+      message.textContent = Registration successful! Thank you, ${fullName}.;
+      message.style.display = 'block';
+
+      form.reset();
+      form.gender.selectedIndex = 0;
+      form.bloodGroup.selectedIndex = 0;
+      form.department.selectedIndex = 0;
+    });
+
+    
+    form.addEventListener('reset', () => {
+      message.style.display = 'none';
+      message.textContent = '';
+    });
+  </script>
+</body>
+</html>
